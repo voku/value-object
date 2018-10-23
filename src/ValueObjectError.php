@@ -13,7 +13,7 @@ class ValueObjectError extends TypeError
         return new self("Public properties `{$propertyNames}` not found on {$className}");
     }
 
-    public static function invalidType(Property $property, $value): ValueObjectError
+    public static function invalidType(ValueObjectProperty $property, $value): ValueObjectError
     {
         if ($value === null) {
             $value = 'null';
@@ -28,7 +28,7 @@ class ValueObjectError extends TypeError
         return new self("Invalid type: expected {$property->getFqn()} to be of type {$expectedTypes}, instead got value `{$value}`.");
     }
 
-    public static function uninitializedProperty(Property $property): ValueObjectError
+    public static function uninitializedProperty(ValueObjectProperty $property): ValueObjectError
     {
         return new self("Non-nullable property {$property->getFqn()} has not been initialized.");
     }

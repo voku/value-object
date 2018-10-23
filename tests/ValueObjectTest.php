@@ -2,6 +2,7 @@
 
 namespace Spatie\ValueObject\Tests;
 
+use Spatie\ValueObject\Tests\TestClasses\ShorthandTypeDoc;
 use Spatie\ValueObject\ValueObject;
 use Spatie\ValueObject\ValueObjectError;
 use Spatie\ValueObject\Tests\TestClasses\DummyClass;
@@ -149,6 +150,16 @@ class ValueObjectTest extends TestCase
             /** @var \Spatie\ValueObject\Tests\TestClasses\DummyClass */
             public $foo;
         };
+    }
+
+    /** @test */
+    public function imported_classes_are_supported()
+    {
+        new ShorthandTypeDoc([
+            'var' => new DummyClass(),
+        ]);
+
+        $this->markTestSucceeded();
     }
 
     /** @test */

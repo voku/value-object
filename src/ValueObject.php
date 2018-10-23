@@ -2,9 +2,6 @@
 
 namespace Spatie\ValueObject;
 
-use ReflectionClass;
-use ReflectionProperty;
-
 abstract class ValueObject
 {
     /** @var array */
@@ -18,9 +15,9 @@ abstract class ValueObject
 
     public function __construct(array $parameters)
     {
-        $class = new ReflectionClass(static::class);
+        $class = new ValueObjectDefinition($this);
 
-        $properties = $this->getPublicProperties($class);
+        $properties = $class->getValueObjectProperties();
 
         foreach ($properties as $property) {
             $value = $parameters[$property->getName()] ?? null;
@@ -77,21 +74,5 @@ abstract class ValueObject
         }
 
         return Arr::except($this->all(), $this->exceptKeys);
-    }
-
-    /**
-     * @param \ReflectionClass $class
-     *
-     * @return array|\Spatie\ValueObject\Property[]
-     */
-    protected function getPublicProperties(ReflectionClass $class): array
-    {
-        $properties = [];
-
-        foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
-            $properties[$reflectionProperty->getName()] = Property::fromReflection($this, $reflectionProperty);
-        }
-
-        return $properties;
     }
 }
